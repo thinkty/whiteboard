@@ -1,6 +1,9 @@
 const path = require('path');
 
 module.exports = {
+  entry: {
+    main: './src/index.js',
+  },
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
     alias: {
@@ -19,5 +22,9 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
     ],
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].bundle.js',
   },
 };

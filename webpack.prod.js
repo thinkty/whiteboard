@@ -5,14 +5,11 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'production',
-  entry: {
-    main: './src/index.js',
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].bundle.js',
-  },
   plugins: [
     new CleanWebpackPlugin(),
+    new HtmlWebPackPlugin({
+      template: path.resolve(__dirname, 'src/index.html'),
+      filename: 'index.html',
+    }),
   ],
 });

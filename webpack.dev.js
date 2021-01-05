@@ -5,22 +5,15 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'development',
-  entry: {
-    example: './src/example/index.js',
-  },
-  devtool: 'inline-source-map',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-  },
   plugins: [
     new HtmlWebPackPlugin({
-      template: path.resolve(__dirname, 'src/example/index.html'),
+      template: path.resolve(__dirname, 'src/index.html'),
       filename: 'index.html',
-    })
+    }),
   ],
+  devtool: 'inline-source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.resolve(__dirname, 'src'),
     open: true,
     port: 9000,
     hot: true,
