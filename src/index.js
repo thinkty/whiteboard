@@ -1,9 +1,5 @@
-import ReactChat from './ReactChat';
-import UserMessage from './UserMessage';
-import InputArea from './InputArea';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-export {
-  ReactChat as default,
-  UserMessage,
-  InputArea,
-};
+ReactDOM.render(<App />, document.getElementById('root'));
