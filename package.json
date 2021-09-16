@@ -1,13 +1,13 @@
 {
-  "name": "react-template",
+  "name": "whiteboard",
   "version": "0.0.1",
   "author": "Tae Yoon Kim",
   "license": "MIT",
-  "description": "My version of CRA",
-  "homepage": "https://github.com/thinkty/react-template",
+  "description": "A simple startup page focused on customization",
+  "homepage": "https://github.com/thinkty/whiteboard",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thinkty/react-template.git"
+    "url": "https://github.com/thinkty/whiteboard.git"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint src/",
