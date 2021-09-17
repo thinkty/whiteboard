@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "Tae Yoon Kim",
   "license": "MIT",
-  "description": "My version of CRA",
+  "description": "My version of CRA with TypeScript",
   "homepage": "https://github.com/thinkty/react-template",
   "repository": {
     "type": "git",
