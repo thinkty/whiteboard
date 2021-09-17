@@ -2,13 +2,14 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    main: './src/index.js',
+    main: './src/index.tsx',
   },
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
     alias: {
       react: path.join(__dirname, 'node_modules', 'react'),
     },
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   module: {
     rules: [
@@ -18,7 +19,12 @@ module.exports = {
         use: { loader: 'babel-loader' },
       },
       {
-        test: /\.css$/,
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: { loader: 'ts-loader' },
+      },
+      {
+        test: /\.(css|scss)$/,
         use: ['style-loader', 'css-loader'],
       },
     ],
