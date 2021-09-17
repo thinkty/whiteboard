@@ -1,28 +1,37 @@
-import React from 'react';
+import * as React from 'react';
+import { Settings } from './Settings';
+import { SettingsT, defaultSettings } from '../configs/styles';
 
-type Props = {
-  message: string;
-} & typeof defaultProps;
+type Props = {} & typeof defaultProps;
 
-const defaultProps = {
-  message: 'Hello World!',
-};
+const defaultProps = {};
 
-export const App = (props: Props): JSX.Element => {
+export const App = ({}: Props): JSX.Element => {
+  const [settings, setSettings] = React.useState<SettingsT>(defaultSettings);
+
   return (
     <div
       style={{
         width: '100vw',
         height: '100vh',
-        display: 'grid',
-        justifyContent: 'center',
+        fontFamily: 'verdana, sans-serif',
+        color: settings.primaryColor.color.hex,
+        backgroundColor: settings.backgroundColor.color.hex,
+        display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <h1>
-        { props.message }
-      </h1>
+      <div>
+        Placeholder
+      </div>
+      <Settings
+        currentSettings={settings}
+        updateSettings={setSettings}
+      />
     </div>
   );
 }
+
 App.defaultProps = defaultProps;
