@@ -18,32 +18,32 @@ export const defaultSettings: SettingsT = {
   primaryColor: {
     label: 'Color',
     color: {
-      hex: '#FFFF00',
+      hex: '#FFFFFF',
       hsl: {
-        h: 64,
-        s: 100,
-        l: 50,
+        h: 0,
+        s: 0,
+        l: 100,
       },
       rgb: {
         r: 255,
         g: 255,
-        b: 0,
+        b: 255,
       },
     },
   },
   backgroundColor: {
     label: 'Background Color',
     color: {
-      hex: '#008080',
+      hex: '#333333',
       hsl: {
-        h: 180,
-        s: 100,
-        l: 25,
+        h: 0,
+        s: 0,
+        l: 20,
       },
       rgb: {
-        r: 0,
-        g: 128,
-        b: 128,
+        r: 33,
+        g: 33,
+        b: 33,
       },
     },
   },

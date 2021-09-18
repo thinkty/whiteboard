@@ -9,6 +9,15 @@ const defaultProps = {};
 export const App = ({}: Props): JSX.Element => {
   const [settings, setSettings] = React.useState<SettingsT>(defaultSettings);
 
+  // Read from localStorage if avail on componentDidMount
+  React.useEffect((): void => {
+    const localSettingsRaw = localStorage.getItem('settings');
+    if (localSettingsRaw) {
+      const localSettings: SettingsT = JSON.parse(localSettingsRaw);
+      setSettings(localSettings);
+    }
+  }, []);
+
   return (
     <div
       style={{
@@ -24,11 +33,16 @@ export const App = ({}: Props): JSX.Element => {
       }}
     >
       <div>
-        Placeholder
+        {/* TODO: Add the grid to place all the widgets */}
+        Placeholder 
       </div>
       <Settings
         currentSettings={settings}
-        updateSettings={setSettings}
+        updateSettings={(newSettings: SettingsT): void => {
+          setSettings(newSettings);
+          // Save to localStorage
+          localStorage.setItem('settings', JSON.stringify(newSettings));
+        }}
       />
     </div>
   );
