@@ -24,8 +24,13 @@ export const Settings = (props: Props): JSX.Element => {
           top: 10,
           right: 10,
           margin: 10,
+          backgroundColor: props.currentSettings.backgroundColor.color.hex,
+          borderRadius: 30,
           opacity: hovering ? 0.5 : 1,
           cursor: hovering ? 'pointer' : 'default',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
         onMouseEnter={() => { setHover(true); }}
         onMouseLeave={() => { setHover(false); }}
