@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { ColorPicker } from './ColorPicker';
 import { SettingsEntryT, SettingsT } from '../configs/styles';
 
@@ -7,8 +7,7 @@ type Props = {
   updateSettings: (settings: SettingsT) => void;
 } & typeof defaultProps;
 
-const defaultProps = {
-};
+const defaultProps = {};
 
 export const Settings = (props: Props): JSX.Element => {
   const [settings, setSettings] = React.useState<SettingsT>(props.currentSettings);
@@ -21,6 +20,9 @@ export const Settings = (props: Props): JSX.Element => {
       {/* The settings icon button */}
       <div
         style={{
+          position: 'fixed',
+          top: 10,
+          right: 10,
           margin: 10,
           opacity: hovering ? 0.5 : 1,
           cursor: hovering ? 'pointer' : 'default',
