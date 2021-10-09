@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Settings } from './Settings';
 import { Grid } from './Grid';
-// import { GridItemI, defaultItems } from './GridItem';
+import { GridItemT, defaultItems } from './GridItem';
 import { SettingsT, defaultSettings, extractSettings } from '../configs/styles';
 
 type Props = {} & typeof defaultProps;
@@ -10,7 +10,7 @@ const defaultProps = {};
 
 export const App = ({}: Props): JSX.Element => {
   const [settings, setSettings] = React.useState<SettingsT>(defaultSettings); // Colors and etc.
-  // const [items, setItems] = React.useState<GridItemI[]>(defaultItems); // Grid items and etc.
+  const [items, setItems] = React.useState<GridItemT[]>(defaultItems); // Grid items and etc.
 
   // Read from localStorage if avail on componentDidMount
   React.useEffect((): void => {
@@ -19,12 +19,12 @@ export const App = ({}: Props): JSX.Element => {
       const localSettings: SettingsT = JSON.parse(localSettingsRaw);
       setSettings(localSettings);
     }
-    
-    // const localItemsRaw = localStorage.getItem('items');
-    // if (localItemsRaw) {
-    //   const localItems: GridItemI[] = JSON.parse(localItemsRaw);
-    //   setItems(localItems);
-    // }
+
+    const localItemsRaw = localStorage.getItem('items');
+    if (localItemsRaw) {
+      const localItems: GridItemT[] = JSON.parse(localItemsRaw);
+      setItems(localItems);
+    }
   }, []);
 
   const { showGrid, primaryColor, backgroundColor } = extractSettings(settings);
@@ -56,11 +56,11 @@ export const App = ({}: Props): JSX.Element => {
       {/* Grid */}
       <Grid
         showGrid={showGrid}
-        // currentItems={items}
-        // updateItems={(newItems: GridItemI[]): void => {
-        //   setItems(newItems);
-        //   localStorage.setItem('items', JSON.stringify(newItems));
-        // }}
+        currentItems={items}
+        updateItems={(newItems: GridItemT[]): void => {
+          setItems(newItems);
+          localStorage.setItem('items', JSON.stringify(newItems));
+        }}
       />
     </div>
   );
