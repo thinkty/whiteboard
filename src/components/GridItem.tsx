@@ -2,14 +2,17 @@ import * as React from 'react';
 
 // Length of the edge of grid item
 export const gridItemLen: number = 80;
-export enum ItemType {
-  Url,
-}
+
 export const defaultItems: GridItemT[] = [
   {
     x: 3,
     y: 3,
-    text: 'example',
+    text: '1',
+  },
+  {
+    x: 3,
+    y: 1,
+    text: '2',
   },
 ];
 
@@ -32,15 +35,30 @@ const defaultProps = {
   text: '???',
 };
 
+enum DragStatus {
+  None,
+  Enter,
+  Over,
+  Leave,
+};
+
 export const GridItem = (props: Props): JSX.Element => {
   const { showGrid, x, y, width, height, text } = props;
-  const [hover, setHover] = React.useState<boolean>(false);
+  const [dragging, setDrag] = React.useState<boolean>(false);
+  const [dragStatus, setDragStatus] = React.useState<DragStatus>(DragStatus.None);
 
   return (
     <div
+      draggable={showGrid}
+      onDrop={() => { console.log('yeet'); }}
+      onDragStart={() => { setDrag(true); }}
+      onDragEnd={() => { setDrag(false); }}
+      onDragEnter={() => { setDragStatus(DragStatus.Enter); }}
+      onDragOver={() => { setDragStatus(DragStatus.Over); }}
+      onDragLeave={() => { setDragStatus(DragStatus.Leave); }}
       style={{
         border: showGrid ? 'thin dotted black' : 'none',
-        // Translating the points so the center is (0,0)
+        cursor: showGrid ? 'move' : 'default',
         gridColumn: `${x} / span ${width}`,
         gridRow: `${y} / span ${height}`,
         padding: 5,
@@ -51,15 +69,14 @@ export const GridItem = (props: Props): JSX.Element => {
           width: '100%',
           height: '100%',
           borderRadius: 10,
-          cursor: 'pointer',
-          backgroundColor: hover ? '#FFF300' : '#FFFFFF',
+          cursor: showGrid ? 'move' : 'pointer',
+          backgroundColor: dragStatus === DragStatus.Over ? '#FFF300' : '#FFFFFF',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          opacity: dragging ? 0.5 : 1.0,
         }}
-        onMouseEnter={() => { setHover(true); }}
-        onMouseLeave={() => { setHover(false); }}
       >
         { text }
       </div>
