@@ -56,7 +56,6 @@ export const Grid = (props: Props): JSX.Element => {
           <GridItem
             {...item}
             key={i}
-            showGrid={showGrid}
           />
         ))
       }
