@@ -28,6 +28,10 @@ export const App = ({}: Props): JSX.Element => {
   }, []);
 
   const { showGrid, primaryColor, backgroundColor } = extractSettings(settings);
+  const style = {
+    "--primary": primaryColor.hex,
+    "--background": backgroundColor.hex,
+  } as React.CSSProperties;
 
   return (
     <div
@@ -42,6 +46,7 @@ export const App = ({}: Props): JSX.Element => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        ...style,
       }}
     >
       {/* Settings menu */}
