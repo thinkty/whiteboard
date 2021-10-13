@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { GridItem, gridItemLen, GridItemT, } from './GridItem';
+import { GridPlaceholder } from './GridPlaceholder';
 
 // Screen dimension (window.innerWidth, window.innerHeight) in pixels
 type ScreenDimensionT = {
@@ -35,6 +36,33 @@ export const Grid = (props: Props): JSX.Element => {
   const numRows: number = Math.floor(dimension.height / gridItemLen) % 2 !== 0 ? Math.floor(dimension.height / gridItemLen) : Math.floor(dimension.height / gridItemLen) - 1;
   const numCols: number = Math.floor(dimension.width / gridItemLen) % 2 !== 0 ? Math.floor(dimension.width / gridItemLen) : Math.floor(dimension.width / gridItemLen) - 1;
 
+  // Storing the occupied coordinates before filling in the placeholders to avoid overlaps
+  const occupiedCoordinates: {x: number, y: number}[] = [];
+  currentItems.forEach((item: GridItemT) => {
+    occupiedCoordinates.push({
+      x: item.x,
+      y: item.y,
+    });
+  });
+
+  // Create grid placeholders excluding the already occupied coordinates
+  // TODO: this is just horrible
+  const placeholders: JSX.Element[] = [];
+  for (let x = 1; x <= numCols; x++) {
+    for (let y = 1; y <= numRows; y++) {
+      if (!occupiedCoordinates.includes({ x, y })) {
+        placeholders.push(
+          <GridPlaceholder
+            key={occupiedCoordinates.length + numCols * y + x}
+            x={x}
+            y={y}
+            showGrid={showGrid}
+          />
+        );
+      }
+    }
+  }
+
   return (
     <div
       style={{
@@ -48,14 +76,18 @@ export const Grid = (props: Props): JSX.Element => {
       }}
     >
       {
+        // Add placeholder grid tiles to handle adding new blocks
+        ...placeholders
+      }
+      {
         // Filter out the ones out of bounds and render GridItem react
         // components based on the prop: currentItems
         currentItems
         .filter((item: GridItemT) => ( item.x <= numCols && item.y <= numRows ))
         .map((item: GridItemT, i: number) => (
           <GridItem
-            {...item}
             key={i}
+            {...item}
           />
         ))
       }
