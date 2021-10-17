@@ -46,7 +46,7 @@ export const Grid = (props: Props): JSX.Element => {
   });
 
   // Create grid placeholders excluding the already occupied coordinates
-  // TODO: this is just horrible
+  // TODO: this is just horrible.. but it works :D
   const placeholders: JSX.Element[] = [];
   for (let x = 1; x <= numCols; x++) {
     for (let y = 1; y <= numRows; y++) {
@@ -72,7 +72,7 @@ export const Grid = (props: Props): JSX.Element => {
         gridTemplateColumns: `repeat(${numCols}, ${gridItemLen}px)`,
         gridTemplateRows: `repeat(${numRows}, ${gridItemLen}px)`,
         gridAutoFlow: 'dense',
-        border: showGrid ? 'thin dotted black' : 'none',
+        border: showGrid ? 'thin dotted var(--primary)' : 'none',
       }}
     >
       {
