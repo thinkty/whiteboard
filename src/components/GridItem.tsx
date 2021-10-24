@@ -6,6 +6,7 @@ export const gridItemLen: number = 80;
 
 export const defaultItems: GridItemT[] = [
   {
+    id: 1635071086635,
     x: 3,
     y: 3,
     text: '1',
@@ -13,6 +14,7 @@ export const defaultItems: GridItemT[] = [
     icon: 'https://simpleicons.org/icons/youtube.svg',
   },
   {
+    id: 1635071086630,
     x: 3,
     y: 1,
     text: '2',
@@ -20,6 +22,7 @@ export const defaultItems: GridItemT[] = [
 ];
 
 export type GridItemT = {
+  id: number; // Too lazy to use uuid, just gonna use time in milliseconds
   x: number;
   y: number;
   width?: number;  // default 1
@@ -54,7 +57,7 @@ export const GridItem = (props: Props): JSX.Element => {
     >
       {
         // URL shortcuts
-        url && icon
+        url && url !== '' && icon && icon !== ''
         ?
         <GridItemURL
           url={url}
@@ -75,7 +78,7 @@ export const GridItem = (props: Props): JSX.Element => {
             alignItems: 'center',
           }}
         >
-          { text }
+          { text !== '' ? text : '???' }
         </div>
       }
     </div>

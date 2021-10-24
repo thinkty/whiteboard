@@ -1,20 +1,25 @@
 import * as React from 'react';
+import { GridItemT } from './GridItem';
+import { GridPlaceholderInput } from './GridPlaceholderInput';
 
 type Props = {
   x: number;
   y: number;
   showGrid: boolean;
+  updateItems: (newItem: GridItemT) => void;
 } & typeof defaultProps;
 
 const defaultProps = {};
 
-export const GridPlaceholder = ({ x, y, showGrid }: Props): JSX.Element => {
+export const GridPlaceholder = ({ x, y, showGrid, updateItems }: Props): JSX.Element => {
   const [hovering, setHover] = React.useState<boolean>(false);
   const [open, openModal] = React.useState<boolean>(false);
   const [hoveringExit, setExitHover] = React.useState<boolean>(false);
   const [hoveringCancel, setCancelHover] = React.useState<boolean>(false);
   const [hoveringConfirm, setConfirmHover] = React.useState<boolean>(false);
-
+  const [text, setText] = React.useState<string>('');
+  const [url, setUrl] = React.useState<string>('');
+  const [icon, setIcon] = React.useState<string>('');
 
   return (
     <>
@@ -66,14 +71,14 @@ export const GridPlaceholder = ({ x, y, showGrid }: Props): JSX.Element => {
             justifyContent: 'space-between',
           }}
         >
-          {/* Modal Content */}
+          {/* Modal Header & Content */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
             }}
           >
-            {/* Editing modal header */}
+            {/* Modal header */}
             <div
               style={{
                 display: 'flex',
@@ -97,14 +102,31 @@ export const GridPlaceholder = ({ x, y, showGrid }: Props): JSX.Element => {
                 </svg>
               </div>
             </div>
-            {/* Editing modal data section */}
+            {/* Modal Content */}
             <div
               style={{
-                fontSize: 20,
-                fontWeight: 'bold',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
-              X : { x }, Y : -{ y }
+              <div>
+                Coordinates : X = { x }, Y = -{ y }
+              </div>
+              <GridPlaceholderInput
+                label="Text"
+                value={text}
+                updateValue={setText}
+              />
+              <GridPlaceholderInput
+                label="URL"
+                value={url}
+                updateValue={setUrl}
+              />
+              <GridPlaceholderInput
+                label="Icon URL"
+                value={icon}
+                updateValue={setIcon}
+              />
             </div>
           </div>
           {/* Modal Action */}
@@ -117,6 +139,7 @@ export const GridPlaceholder = ({ x, y, showGrid }: Props): JSX.Element => {
             }}
           >
             <div
+              onClick={() => { openModal(false); }}
               onMouseEnter={() => { setCancelHover(true); }}
               onMouseLeave={() => { setCancelHover(false); }}
               style={{
@@ -133,6 +156,15 @@ export const GridPlaceholder = ({ x, y, showGrid }: Props): JSX.Element => {
               Cancel
             </div>
             <div
+              onClick={() => {
+                // Do basic check and add new item to the list and close modal
+                const newItem: GridItemT = { id: new Date().getMilliseconds() ,x, y, text, url, icon };
+                updateItems(newItem);
+                setText('');
+                setUrl('');
+                setIcon('');
+                openModal(false);
+              }}
               onMouseEnter={() => { setConfirmHover(true); }}
               onMouseLeave={() => { setConfirmHover(false); }}
               style={{

@@ -10,7 +10,7 @@ type ScreenDimensionT = {
 
 type Props = {
   currentItems: GridItemT[];
-  updateItems: (newItems: GridItemT[]) => void;
+  updateItems: (newItem: GridItemT) => void;
   showGrid?: boolean;
 } & typeof defaultProps;
 
@@ -19,8 +19,9 @@ const defaultProps = {
 };
 
 export const Grid = (props: Props): JSX.Element => {
-  const { currentItems, showGrid, } = props;
+  const { currentItems, showGrid, updateItems } = props;
   const [dimension, setDimension] = React.useState<ScreenDimensionT>({ width: window.innerWidth, height: window.innerHeight });
+  const [items, setItems] = React.useState<JSX.Element[]>();
 
   // Making the grid responsive
   React.useEffect((): VoidFunction => {
@@ -29,39 +30,58 @@ export const Grid = (props: Props): JSX.Element => {
 
     // Cleanup
     return () => { window.removeEventListener('resize', handleResize); }
-  });
+  }, []);
 
   // Calculate the max number of rows and columns based on the gridItemLen
   // Make the numbers odd to ease the calculation of the coordinates
   const numRows: number = Math.floor(dimension.height / gridItemLen) % 2 !== 0 ? Math.floor(dimension.height / gridItemLen) : Math.floor(dimension.height / gridItemLen) - 1;
   const numCols: number = Math.floor(dimension.width / gridItemLen) % 2 !== 0 ? Math.floor(dimension.width / gridItemLen) : Math.floor(dimension.width / gridItemLen) - 1;
 
-  // Storing the occupied coordinates before filling in the placeholders to avoid overlaps
-  const occupiedCoordinates: {x: number, y: number}[] = [];
-  currentItems.forEach((item: GridItemT) => {
-    occupiedCoordinates.push({
-      x: item.x,
-      y: item.y,
-    });
-  });
+  // Rendering the grid items/placeholders
+  React.useEffect(() => {
+    const tempItems: JSX.Element[] = [];
 
-  // Create grid placeholders excluding the already occupied coordinates
-  // TODO: this is just horrible.. but it works :D
-  const placeholders: JSX.Element[] = [];
-  for (let x = 1; x <= numCols; x++) {
-    for (let y = 1; y <= numRows; y++) {
-      if (!occupiedCoordinates.includes({ x, y })) {
-        placeholders.push(
-          <GridPlaceholder
-            key={occupiedCoordinates.length + numCols * y + x}
-            x={x}
-            y={y}
-            showGrid={showGrid}
+    // Storing the occupied coordinates before filling in the placeholders to avoid overlaps
+    const occupiedCoordinates: {x: number, y: number}[] = [];
+    currentItems.forEach((item: GridItemT) => {
+      if (item.x <= numCols && item.y <= numRows) {
+        occupiedCoordinates.push({
+          x: item.x,
+          y: item.y,
+        });
+
+        // Place actual grid items into the list
+        tempItems.push(
+          <GridItem
+            key={item.id}
+            {...item}
           />
         );
       }
+    });
+
+    // Create grid placeholders excluding the already occupied coordinates
+    // TODO: this is just horrible.. but it works :D
+    for (let x = 1; x <= numCols; x++) {
+      for (let y = 1; y <= numRows; y++) {
+        if (!occupiedCoordinates.includes({ x, y })) {
+          tempItems.push(
+            <GridPlaceholder
+              key={numCols * y + x}
+              x={x}
+              y={y}
+              showGrid={showGrid}
+              updateItems={(newItem) => { updateItems(newItem); }}
+            />
+          );
+        }
+      }
     }
-  }
+
+    setItems(tempItems);
+    console.log('updated');
+  }, [currentItems, numCols, numRows]);
+
 
   return (
     <div
@@ -76,20 +96,7 @@ export const Grid = (props: Props): JSX.Element => {
       }}
     >
       {
-        // Add placeholder grid tiles to handle adding new blocks
-        ...placeholders
-      }
-      {
-        // Filter out the ones out of bounds and render GridItem react
-        // components based on the prop: currentItems
-        currentItems
-        .filter((item: GridItemT) => ( item.x <= numCols && item.y <= numRows ))
-        .map((item: GridItemT, i: number) => (
-          <GridItem
-            key={i}
-            {...item}
-          />
-        ))
+        items
       }
     </div>
   );

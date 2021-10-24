@@ -18,12 +18,16 @@ export const App = ({}: Props): JSX.Element => {
     if (localSettingsRaw) {
       const localSettings: SettingsT = JSON.parse(localSettingsRaw);
       setSettings(localSettings);
+    } else {
+      localStorage.setItem('settings', JSON.stringify(settings));
     }
 
     const localItemsRaw = localStorage.getItem('items');
     if (localItemsRaw) {
       const localItems: GridItemT[] = JSON.parse(localItemsRaw);
       setItems(localItems);
+    } else {
+      localStorage.setItem('items', JSON.stringify(items));
     }
   }, []);
 
@@ -62,7 +66,9 @@ export const App = ({}: Props): JSX.Element => {
       <Grid
         showGrid={showGrid}
         currentItems={items}
-        updateItems={(newItems: GridItemT[]): void => {
+        updateItems={(newItem: GridItemT): void => {
+          const newItems = items.slice();
+          newItems.push(newItem);
           setItems(newItems);
           localStorage.setItem('items', JSON.stringify(newItems));
         }}
