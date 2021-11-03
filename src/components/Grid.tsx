@@ -80,7 +80,7 @@ export const Grid = (props: Props): JSX.Element => {
 
     setItems(tempItems);
     console.log('updated');
-  }, [currentItems, numCols, numRows]);
+  }, [currentItems, numCols, numRows, showGrid]);
 
 
   return (
