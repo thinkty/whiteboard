@@ -54,6 +54,7 @@ export const Grid = (props: Props): JSX.Element => {
         tempItems.push(
           <GridItem
             key={item.id}
+            showGrid={showGrid}
             {...item}
           />
         );
