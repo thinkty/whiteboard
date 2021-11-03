@@ -64,7 +64,7 @@ export const Grid = (props: Props): JSX.Element => {
     // TODO: this is just horrible.. but it works :D
     for (let x = 1; x <= numCols; x++) {
       for (let y = 1; y <= numRows; y++) {
-        if (!occupiedCoordinates.includes({ x, y })) {
+        if (!occupiedCoordinates.some((coord) => coord.x === x && coord.y === y)) {
           tempItems.push(
             <GridPlaceholder
               key={numCols * y + x}
@@ -79,7 +79,6 @@ export const Grid = (props: Props): JSX.Element => {
     }
 
     setItems(tempItems);
-    console.log('updated');
   }, [currentItems, numCols, numRows, showGrid]);
 
 
