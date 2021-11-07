@@ -11,6 +11,7 @@ type ScreenDimensionT = {
 type Props = {
   currentItems: GridItemT[];
   updateItems: (newItem: GridItemT) => void;
+  removeItem: (x: number, y: number) => void;
   showGrid?: boolean;
 } & typeof defaultProps;
 
@@ -19,7 +20,7 @@ const defaultProps = {
 };
 
 export const Grid = (props: Props): JSX.Element => {
-  const { currentItems, showGrid, updateItems } = props;
+  const { currentItems, showGrid, updateItems, removeItem } = props;
   const [dimension, setDimension] = React.useState<ScreenDimensionT>({ width: window.innerWidth, height: window.innerHeight });
   const [items, setItems] = React.useState<JSX.Element[]>();
 
@@ -55,6 +56,7 @@ export const Grid = (props: Props): JSX.Element => {
           <GridItem
             key={item.id}
             showGrid={showGrid}
+            removeItem={removeItem}
             {...item}
           />
         );

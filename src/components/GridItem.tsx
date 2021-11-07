@@ -34,6 +34,7 @@ export type GridItemT = {
 
 type Props = {
   showGrid: boolean;
+  removeItem: (x: number, y: number) => void;
 } & GridItemT & typeof defaultProps;
 
 const defaultProps = {
@@ -43,7 +44,7 @@ const defaultProps = {
 };
 
 export const GridItem = (props: Props): JSX.Element => {
-  const { x, y, width, height, text, url, icon, showGrid } = props;
+  const { x, y, width, height, text, url, icon, showGrid, removeItem } = props;
   const [open, openModal] = React.useState<boolean>(false);
   const [hoveringCancel, setCancelHover] = React.useState<boolean>(false);
   const [hoveringConfirm, setConfirmHover] = React.useState<boolean>(false);
@@ -170,7 +171,7 @@ export const GridItem = (props: Props): JSX.Element => {
             </div>
             <div
               onClick={() => {
-                // TODO: remove item
+                removeItem(x, y);
                 openModal(false);
               }}
               onMouseEnter={() => { setConfirmHover(true); }}

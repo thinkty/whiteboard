@@ -72,6 +72,11 @@ export const App = ({}: Props): JSX.Element => {
           setItems(newItems);
           localStorage.setItem('items', JSON.stringify(newItems));
         }}
+        removeItem={(x: number, y: number): void => {
+          const newItems = items.filter((item: GridItemT) => !(item.x === x && item.y === y));
+          setItems(newItems);
+          localStorage.setItem('items', JSON.stringify(newItems));
+        }}
       />
     </div>
   );
