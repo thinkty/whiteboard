@@ -1,41 +1,21 @@
 import * as React from 'react';
-import { Settings } from './Settings';
-import { Grid } from './Grid';
-import { GridItemT, defaultItems } from './GridItem';
-import { SettingsT, defaultSettings, extractSettings } from '../configs/styles';
+import { Container } from './Container';
 
-type Props = {} & typeof defaultProps;
+export const App = (): JSX.Element => {
 
-const defaultProps = {};
-
-export const App = ({}: Props): JSX.Element => {
-  const [settings, setSettings] = React.useState<SettingsT>(defaultSettings); // Colors and etc.
-  const [items, setItems] = React.useState<GridItemT[]>(defaultItems); // Grid items and etc.
-
-  // Read from localStorage if avail on componentDidMount
-  React.useEffect((): void => {
-    const localSettingsRaw = localStorage.getItem('settings');
-    if (localSettingsRaw) {
-      const localSettings: SettingsT = JSON.parse(localSettingsRaw);
-      setSettings(localSettings);
-    } else {
-      localStorage.setItem('settings', JSON.stringify(settings));
-    }
-
-    const localItemsRaw = localStorage.getItem('items');
-    if (localItemsRaw) {
-      const localItems: GridItemT[] = JSON.parse(localItemsRaw);
-      setItems(localItems);
-    } else {
-      localStorage.setItem('items', JSON.stringify(items));
-    }
-  }, []);
-
-  const { showGrid, primaryColor, backgroundColor } = extractSettings(settings);
   const style = {
-    "--primary": primaryColor.hex,
-    "--background": backgroundColor.hex,
-  } as React.CSSProperties;
+    '--primary': '#ffffff',
+    '--background': '#444444',
+    '--add-modal-radius': '10px',
+    '--add-modal-button': '#333333',
+    '--add-modal-textfield-background': '#333333',
+    '--add-button-icon': '#ffffff',
+    '--item-width': '200px',
+    '--item-radius': '10px',
+    '--item-header-icon-fill': '#ffffff',
+    '--item-thumbnail-background': '#000000',
+    '--item-thumbnail-height': '100px',
+  };
 
   return (
     <div
@@ -44,8 +24,8 @@ export const App = ({}: Props): JSX.Element => {
         height: '100vh',
         overflow: 'hidden',
         fontFamily: 'verdana, sans-serif',
-        color: primaryColor.hex,
-        backgroundColor: backgroundColor.hex,
+        color: style['--primary'],
+        backgroundColor: style['--background'],
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -53,33 +33,7 @@ export const App = ({}: Props): JSX.Element => {
         ...style,
       }}
     >
-      {/* Settings menu */}
-      <Settings
-        currentSettings={settings}
-        updateSettings={(newSettings: SettingsT): void => {
-          setSettings(newSettings);
-          // Save to localStorage
-          localStorage.setItem('settings', JSON.stringify(newSettings));
-        }}
-      />
-      {/* Grid */}
-      <Grid
-        showGrid={showGrid}
-        currentItems={items}
-        updateItems={(newItem: GridItemT): void => {
-          const newItems = items.slice();
-          newItems.push(newItem);
-          setItems(newItems);
-          localStorage.setItem('items', JSON.stringify(newItems));
-        }}
-        removeItem={(x: number, y: number): void => {
-          const newItems = items.filter((item: GridItemT) => !(item.x === x && item.y === y));
-          setItems(newItems);
-          localStorage.setItem('items', JSON.stringify(newItems));
-        }}
-      />
+      <Container />
     </div>
   );
 }
-
-App.defaultProps = defaultProps;
