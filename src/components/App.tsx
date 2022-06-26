@@ -15,6 +15,7 @@ export const App = (): JSX.Element => {
     '--item-header-icon-fill': '#ffffff',
     '--item-thumbnail-background': '#000000',
     '--item-thumbnail-height': '100px',
+    '--item-thumbnail-icon-color': '#666666',
   };
 
   return (

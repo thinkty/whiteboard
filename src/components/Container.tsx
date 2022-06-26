@@ -4,7 +4,7 @@ import { AddModal } from './AddModal';
 import { defaultItems, Item, itemType } from './Item';
 
 export const Container = (): JSX.Element => {
-  const [items, setItems] = React.useState<itemType[]>(defaultItems);
+  const [items, setItems] = React.useState<itemType[]>([]);
   const [openModal, setModal] = React.useState<boolean>(false);
 
   // componentDidMount
@@ -16,7 +16,8 @@ export const Container = (): JSX.Element => {
       const localItems: itemType[] = JSON.parse(rawLocalItems);
       setItems(localItems);
     } else {
-      localStorage.setItem('items', JSON.stringify(items));
+      localStorage.setItem('items', JSON.stringify(defaultItems));
+      setItems(defaultItems);
     }
   }, []);
 
